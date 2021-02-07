@@ -16,5 +16,10 @@ namespace TimerCalculator
         {
             InitializeComponent();
         }
+
+        private void TimCalc_Form_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
