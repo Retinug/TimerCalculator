@@ -40,6 +40,17 @@ namespace TimerCalculator
 
         private void button_OverRemain_Click(object sender, EventArgs e)
         {
+            GetData();
+            uint over = uint.Parse(textBox_OverCount.Text);
+            uint remain = uint.Parse(textBox_Remain.Text);
+            UInt64 ticks = Calc.GetTimeTicks(over, remain, res);
+            uint freq = (uint)Calc.GetFreq(clockFreq, ticks);
+            textBox_TimerTick.Text = ticks.ToString();
+
+            //uint sec = 
+            textBox_Freq.Text = freq.ToString();
+            textBox_RealTime.Text = Calc.GetFreq(freq).ToString();
+            //textBox_RealTime.Text = Calc.GetFreqPres(freq, pres).ToString();
 
         }
 

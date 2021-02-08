@@ -8,9 +8,14 @@ namespace TimerCalculator
 {
     static class Calc
     {
-        public static uint GetTimeTicks(uint freq, uint prescaller, uint sec)
+        public static UInt64 GetTimeTicks(uint freq, uint prescaller, uint sec)
         {
             return freq / prescaller * sec;
+        }
+
+        public static UInt64 GetTimeTicks(uint overflow, uint remainTicks, UInt64 res)
+        {
+            return overflow * res + remainTicks;
         }
 
         public static UInt64 GetOverflow(uint freq, UInt64 res)
@@ -30,16 +35,21 @@ namespace TimerCalculator
             return result;
         }
 
-        public static double GetFreqPres(uint sec, uint prescaller)
+        public static double GetFreq(uint freq)
+        {
+            return 1 / (double)freq;
+        }
+
+        public static double GetFreqPres(uint sec, UInt64 prescaller)
         {
             return 1 / (double)sec * prescaller;
         }
 
-        public static double GetFreq(uint clockFreq, uint totalTicks)
+        public static double GetFreq(uint clockFreq, UInt64 totalTicks)
         {
             return (double)(clockFreq/totalTicks);
         }
-        public static double GetFreq(uint clockFreq, uint totalTicks, uint prescaller)
+        public static double GetFreq(uint clockFreq, UInt64 totalTicks, UInt64 prescaller)
         {
             double res = (double)clockFreq / (double)totalTicks / (double)prescaller;
             return res;
