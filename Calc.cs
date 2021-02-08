@@ -30,13 +30,19 @@ namespace TimerCalculator
             return result;
         }
 
-        public static double GetFreq(uint sec)
+        public static double GetFreqPres(uint sec, uint prescaller)
         {
-            return 1 / (double)sec; ;
+            return 1 / (double)sec * prescaller;
         }
+
         public static double GetFreq(uint clockFreq, uint totalTicks)
         {
             return (double)(clockFreq/totalTicks);
+        }
+        public static double GetFreq(uint clockFreq, uint totalTicks, uint prescaller)
+        {
+            double res = (double)clockFreq / (double)totalTicks / (double)prescaller;
+            return res;
         }
     }
 }

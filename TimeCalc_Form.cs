@@ -31,11 +31,11 @@ namespace TimerCalculator
             GetData();
             uint ticks = uint.Parse(textBox_TimerTick.Text);
             uint freq = (uint)Calc.GetFreq(clockFreq, ticks);
-            textBox_Freq.Text = freq.ToString();
+            textBox_Freq.Text = Calc.GetFreq(clockFreq, ticks, pres).ToString();
 
             textBox_OverCount.Text = Calc.GetOverflowTicks(ticks, res).ToString();
             textBox_Remain.Text = Calc.GetRemainTicks(ticks, res).ToString();
-            textBox_RealTime.Text = Calc.GetFreq(freq).ToString();
+            textBox_RealTime.Text = Calc.GetFreqPres(freq, pres).ToString();
         }
 
         private void button_OverRemain_Click(object sender, EventArgs e)
@@ -49,7 +49,7 @@ namespace TimerCalculator
             uint sec = uint.Parse(textBox_RealTime.Text);
             UInt64 res = 0;
             textBox_TimerTick.Text = Calc.GetTimeTicks(clockFreq, pres, sec).ToString();
-            textBox_Freq.Text = Calc.GetFreq(sec).ToString();
+            textBox_Freq.Text = Calc.GetFreq(sec, pres).ToString();
 
             res = CountRes();
             textBox_OverCount.Text = Calc.GetOverflow(clockFreq, res).ToString();
