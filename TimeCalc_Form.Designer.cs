@@ -179,6 +179,7 @@ namespace TimerCalculator
             this.button_TimerTick.TabIndex = 19;
             this.button_TimerTick.Text = "Use timer ticks";
             this.button_TimerTick.UseVisualStyleBackColor = true;
+            this.button_TimerTick.Click += new System.EventHandler(this.button_TimerTick_Click);
             // 
             // button_OverRemain
             // 
@@ -188,6 +189,7 @@ namespace TimerCalculator
             this.button_OverRemain.TabIndex = 20;
             this.button_OverRemain.Text = "Use overflow and remain";
             this.button_OverRemain.UseVisualStyleBackColor = true;
+            this.button_OverRemain.Click += new System.EventHandler(this.button_OverRemain_Click);
             // 
             // button_RealTime
             // 
@@ -197,6 +199,7 @@ namespace TimerCalculator
             this.button_RealTime.TabIndex = 21;
             this.button_RealTime.Text = "Use real time";
             this.button_RealTime.UseVisualStyleBackColor = true;
+            this.button_RealTime.Click += new System.EventHandler(this.button_RealTime_Click);
             // 
             // button_Freq
             // 
@@ -206,6 +209,7 @@ namespace TimerCalculator
             this.button_Freq.TabIndex = 22;
             this.button_Freq.Text = "Use frequency";
             this.button_Freq.UseVisualStyleBackColor = true;
+            this.button_Freq.Click += new System.EventHandler(this.button_Freq_Click);
             // 
             // textBox_Remain
             // 
@@ -253,7 +257,6 @@ namespace TimerCalculator
             this.MaximizeBox = false;
             this.Name = "TimCalc_Form";
             this.Text = "Timer calculator";
-            this.Load += new System.EventHandler(this.TimCalc_Form_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
