@@ -17,6 +17,12 @@ namespace TimerCalculator
         {
             return freq / res;
         }
+
+        public static UInt64 GetOverflowTicks(uint totalTicks, UInt64 res)
+        {
+            return totalTicks / res;
+        }
+
         public static UInt64 GetRemainTicks(uint freq, UInt64 res)
         {
             UInt64 result = freq - GetOverflow(freq, res) * res;
@@ -26,8 +32,11 @@ namespace TimerCalculator
 
         public static double GetFreq(uint sec)
         {
-            double freq = 1 / (double)sec;
-            return freq;
+            return 1 / (double)sec; ;
+        }
+        public static double GetFreq(uint clockFreq, uint totalTicks)
+        {
+            return (double)(clockFreq/totalTicks);
         }
     }
 }

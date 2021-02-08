@@ -12,6 +12,10 @@ namespace TimerCalculator
 {
     public partial class TimCalc_Form : Form
     {
+        uint clockFreq;
+        uint pres;
+        UInt64 res;
+
         public TimCalc_Form()
         {
             InitializeComponent();
@@ -24,7 +28,14 @@ namespace TimerCalculator
 
         private void button_TimerTick_Click(object sender, EventArgs e)
         {
+            GetData();
+            uint ticks = uint.Parse(textBox_TimerTick.Text);
+            uint freq = (uint)Calc.GetFreq(clockFreq, ticks);
+            textBox_Freq.Text = freq.ToString();
 
+            textBox_OverCount.Text = Calc.GetOverflowTicks(ticks, res).ToString();
+            textBox_Remain.Text = Calc.GetRemainTicks(ticks, res).ToString();
+            textBox_RealTime.Text = Calc.GetFreq(freq).ToString();
         }
 
         private void button_OverRemain_Click(object sender, EventArgs e)
@@ -34,13 +45,32 @@ namespace TimerCalculator
 
         private void button_RealTime_Click(object sender, EventArgs e)
         {
-            uint freq = uint.Parse(textBox_ClockFreq.Text);
-            uint pres = uint.Parse(textBox_Pres.Text);
+            GetData();
             uint sec = uint.Parse(textBox_RealTime.Text);
             UInt64 res = 0;
-            textBox_TimerTick.Text = Calc.GetTimeTicks(freq, pres, sec).ToString();
+            textBox_TimerTick.Text = Calc.GetTimeTicks(clockFreq, pres, sec).ToString();
             textBox_Freq.Text = Calc.GetFreq(sec).ToString();
 
+            res = CountRes();
+            textBox_OverCount.Text = Calc.GetOverflow(clockFreq, res).ToString();
+            textBox_Remain.Text = Calc.GetRemainTicks(clockFreq, res).ToString();
+        }
+
+        private void button_Freq_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void GetData()
+        {
+            clockFreq = uint.Parse(textBox_ClockFreq.Text);
+            pres = uint.Parse(textBox_Pres.Text);
+            res = CountRes();
+        }
+
+        private UInt64 CountRes()
+        {
+            UInt64 res = 0;
             switch (comboBox_CountRes.SelectedIndex)
             {
                 case 0:
@@ -53,13 +83,7 @@ namespace TimerCalculator
                     res = (UInt64)Math.Pow(2, 32);
                     break;
             }
-            textBox_OverCount.Text = Calc.GetOverflow(freq, res).ToString();
-            textBox_Remain.Text = Calc.GetRemainTicks(freq, res).ToString();
-        }
-
-        private void button_Freq_Click(object sender, EventArgs e)
-        {
-            
+            return res;
         }
     }
 }
