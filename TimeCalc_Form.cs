@@ -24,6 +24,7 @@ namespace TimerCalculator
         private void button_TimerTick_Click(object sender, EventArgs e)
         {
             GetData();
+            CheckData(textBox_TimerTick, 1);
             ulong ticks = ulong.Parse(textBox_TimerTick.Text);
             double sec = Calc.GetRealTime(clockFreq, ticks, prescaler);
             textBox_RealTime.Text = Convert.ToDecimal(sec).ToString() ;
@@ -37,6 +38,8 @@ namespace TimerCalculator
         private void button_OverRemain_Click(object sender, EventArgs e)
         {
             GetData();
+            CheckData(textBox_OverCount, 1);
+            CheckData(textBox_Remain, 0);
             uint over = uint.Parse(textBox_OverCount.Text);
             uint remain = uint.Parse(textBox_Remain.Text);
 
@@ -50,6 +53,7 @@ namespace TimerCalculator
         private void button_RealTime_Click(object sender, EventArgs e)
         {
             GetData();
+            CheckData(textBox_RealTime, 1);
             double sec = double.Parse(textBox_RealTime.Text);
             
             textBox_TimerTick.Text = Convert.ToDecimal(Calc.GetTimeTicks(clockFreq, prescaler, sec)).ToString();
@@ -63,6 +67,7 @@ namespace TimerCalculator
         private void button_Freq_Click(object sender, EventArgs e)
         {
             GetData();
+            CheckData(textBox_Freq, 1);
             double freq = double.Parse(textBox_Freq.Text);
             uint ticks = Calc.GetTimeTicksFreq(clockFreq, prescaler, freq);
             textBox_TimerTick.Text = Convert.ToDecimal(ticks).ToString();
@@ -77,9 +82,20 @@ namespace TimerCalculator
 
         private void GetData()
         {
+            CheckData(textBox_ClockFreq, 8000000);
+            CheckData(textBox_Pres, 1);
+
             clockFreq = uint.Parse(textBox_ClockFreq.Text);
             prescaler = uint.Parse(textBox_Pres.Text);
             resolution = CountRes();
+        }
+
+        private void CheckData(TextBox textBox, uint value)
+        {
+            if (textBox.Text == string.Empty || textBox.Text == 0.ToString())
+            {
+                textBox.Text = value.ToString();
+            }
         }
 
         private ulong CountRes()

@@ -119,6 +119,7 @@ namespace TimerCalculator
             this.textBox_Pres.Name = "textBox_Pres";
             this.textBox_Pres.Size = new System.Drawing.Size(100, 20);
             this.textBox_Pres.TabIndex = 9;
+            this.textBox_Pres.Text = "1";
             // 
             // textBox_TimerTick
             // 
