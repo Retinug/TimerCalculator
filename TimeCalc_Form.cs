@@ -13,29 +13,25 @@ namespace TimerCalculator
     public partial class TimCalc_Form : Form
     {
         uint clockFreq;
-        uint pres;
-        UInt64 res;
+        uint prescaler;
+        ulong resolution;
 
         public TimCalc_Form()
         {
             InitializeComponent();
         }
 
-        private void TimCalc_Form_Load(object sender, EventArgs e)
-        {
-            
-        }
-
         private void button_TimerTick_Click(object sender, EventArgs e)
         {
             GetData();
-            uint ticks = uint.Parse(textBox_TimerTick.Text);
-            uint freq = (uint)Calc.GetFreq(clockFreq, ticks);
-            textBox_Freq.Text = Calc.GetFreq(clockFreq, ticks, pres).ToString();
+            ulong ticks = ulong.Parse(textBox_TimerTick.Text);
+            double sec = Calc.GetRealTime(clockFreq, ticks, prescaler);
+            textBox_RealTime.Text = Convert.ToDecimal(sec).ToString() ;
 
-            textBox_OverCount.Text = Calc.GetOverflowTicks(ticks, res).ToString();
-            textBox_Remain.Text = Calc.GetRemainTicks(ticks, res).ToString();
-            textBox_RealTime.Text = Calc.GetFreqPres(freq, pres).ToString();
+            textBox_OverCount.Text = Convert.ToDecimal(Calc.GetOverflow(clockFreq, resolution, prescaler, sec)).ToString();
+            textBox_Remain.Text = Convert.ToDecimal(Calc.GetRemainTicks(clockFreq, resolution, prescaler, sec)).ToString();
+
+            textBox_Freq.Text = Convert.ToDecimal(Calc.GetFreq(sec)).ToString();
         }
 
         private void button_OverRemain_Click(object sender, EventArgs e)
@@ -43,55 +39,62 @@ namespace TimerCalculator
             GetData();
             uint over = uint.Parse(textBox_OverCount.Text);
             uint remain = uint.Parse(textBox_Remain.Text);
-            UInt64 ticks = Calc.GetTimeTicks(over, remain, res);
-            uint freq = (uint)Calc.GetFreq(clockFreq, ticks);
+
+            ulong ticks = Calc.GetTimeTicks(over, remain, resolution);
+            double sec = Calc.GetRealTime(clockFreq, ticks, prescaler);
             textBox_TimerTick.Text = ticks.ToString();
-
-            //uint sec = 
-            textBox_Freq.Text = freq.ToString();
-            textBox_RealTime.Text = Calc.GetFreq(freq).ToString();
-            //textBox_RealTime.Text = Calc.GetFreqPres(freq, pres).ToString();
-
+            textBox_RealTime.Text  = Convert.ToDecimal(sec).ToString();
+            textBox_Freq.Text = Convert.ToDecimal(Calc.GetFreq(sec)).ToString();
         }
 
         private void button_RealTime_Click(object sender, EventArgs e)
         {
             GetData();
-            uint sec = uint.Parse(textBox_RealTime.Text);
-            UInt64 res = 0;
-            textBox_TimerTick.Text = Calc.GetTimeTicks(clockFreq, pres, sec).ToString();
-            textBox_Freq.Text = Calc.GetFreq(sec, pres).ToString();
+            double sec = double.Parse(textBox_RealTime.Text);
+            
+            textBox_TimerTick.Text = Convert.ToDecimal(Calc.GetTimeTicks(clockFreq, prescaler, sec)).ToString();
 
-            res = CountRes();
-            textBox_OverCount.Text = Calc.GetOverflow(clockFreq, res).ToString();
-            textBox_Remain.Text = Calc.GetRemainTicks(clockFreq, res).ToString();
+            textBox_OverCount.Text = Convert.ToDecimal(Calc.GetOverflow(clockFreq, resolution, prescaler, sec)).ToString();
+            textBox_Remain.Text = Convert.ToDecimal(Calc.GetRemainTicks(clockFreq, resolution, prescaler, sec)).ToString();
+
+            textBox_Freq.Text = Convert.ToDecimal(Calc.GetFreq(sec)).ToString();
         }
 
         private void button_Freq_Click(object sender, EventArgs e)
         {
-            
+            GetData();
+            double freq = double.Parse(textBox_Freq.Text);
+            uint ticks = Calc.GetTimeTicksFreq(clockFreq, prescaler, freq);
+            textBox_TimerTick.Text = Convert.ToDecimal(ticks).ToString();
+
+            double sec = Calc.GetRealTime(clockFreq, ticks, prescaler);
+
+            textBox_OverCount.Text = Convert.ToDecimal(Calc.GetOverflow(clockFreq, resolution, prescaler, sec)).ToString();
+            textBox_Remain.Text = Convert.ToDecimal(Calc.GetRemainTicks(clockFreq, resolution, prescaler, sec)).ToString();
+
+            textBox_RealTime.Text = Convert.ToDecimal(sec).ToString();
         }
 
         private void GetData()
         {
             clockFreq = uint.Parse(textBox_ClockFreq.Text);
-            pres = uint.Parse(textBox_Pres.Text);
-            res = CountRes();
+            prescaler = uint.Parse(textBox_Pres.Text);
+            resolution = CountRes();
         }
 
-        private UInt64 CountRes()
+        private ulong CountRes()
         {
-            UInt64 res = 0;
+            ulong res = 0;
             switch (comboBox_CountRes.SelectedIndex)
             {
                 case 0:
-                    res = (UInt64)Math.Pow(2, 8);
+                    res = (ulong)Math.Pow(2, 8);
                     break;
                 case 1:
-                    res = (UInt64)Math.Pow(2, 16);
+                    res = (ulong)Math.Pow(2, 16);
                     break;
                 case 2:
-                    res = (UInt64)Math.Pow(2, 32);
+                    res = (ulong)Math.Pow(2, 32);
                     break;
             }
             return res;

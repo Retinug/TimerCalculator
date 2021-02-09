@@ -8,51 +8,39 @@ namespace TimerCalculator
 {
     static class Calc
     {
-        public static UInt64 GetTimeTicks(uint freq, uint prescaller, uint sec)
+        public static uint GetTimeTicks(uint freq, uint prescaller, double sec)
         {
-            return freq / prescaller * sec;
+            return (uint)(freq / prescaller * sec);
         }
 
-        public static UInt64 GetTimeTicks(uint overflow, uint remainTicks, UInt64 res)
+        public static ulong GetTimeTicks(uint overflow, uint remainTicks, ulong res)
         {
             return overflow * res + remainTicks;
         }
 
-        public static UInt64 GetOverflow(uint freq, UInt64 res)
+        public static uint GetTimeTicksFreq(uint freq, uint prescaller, double newFreq)
         {
-            return freq / res;
+            return (uint)(freq / prescaller * 1 / newFreq);
         }
 
-        public static UInt64 GetOverflowTicks(uint totalTicks, UInt64 res)
+        public static uint GetOverflow(uint freq, ulong res, uint pres, double sec)
         {
-            return totalTicks / res;
+            return (uint)(freq / res / pres * sec);
         }
 
-        public static UInt64 GetRemainTicks(uint freq, UInt64 res)
+        public static double GetRealTime(uint clockFreq, ulong totalTicks, uint pres)
         {
-            UInt64 result = freq - GetOverflow(freq, res) * res;
-
-            return result;
+            return 1 / (clockFreq / totalTicks / (double)pres);
         }
 
-        public static double GetFreq(uint freq)
+        public static uint GetRemainTicks(uint freq, ulong res, uint pres, double sec)
         {
-            return 1 / (double)freq;
+            return (uint)(freq * sec - GetOverflow(freq, res, pres, sec) * res * pres) / pres;
         }
 
-        public static double GetFreqPres(uint sec, UInt64 prescaller)
+        public static double GetFreq(double freq)
         {
-            return 1 / (double)sec * prescaller;
-        }
-
-        public static double GetFreq(uint clockFreq, UInt64 totalTicks)
-        {
-            return (double)(clockFreq/totalTicks);
-        }
-        public static double GetFreq(uint clockFreq, UInt64 totalTicks, UInt64 prescaller)
-        {
-            double res = (double)clockFreq / (double)totalTicks / (double)prescaller;
-            return res;
+            return 1 / freq;
         }
     }
 }
