@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace TimerCalculator
 {
     public partial class TimCalc_Form : Form
@@ -19,6 +20,8 @@ namespace TimerCalculator
         public TimCalc_Form()
         {
             InitializeComponent();
+
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
         }
 
         private void button_TimerTick_Click(object sender, EventArgs e)
