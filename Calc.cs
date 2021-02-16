@@ -25,22 +25,22 @@ namespace TimerCalculator
 
         public static uint GetOverflow(uint freq, ulong res, uint pres, double sec)
         {
-            return (uint)(freq / res / pres * sec);
+            return (uint)(freq / res / pres * Math.Round(sec, 2));
         }
 
         public static double GetRealTime(uint clockFreq, ulong totalTicks, uint pres)
         {
-            return 1 / (clockFreq / totalTicks / (double)pres);
+            return Math.Round(1 / (clockFreq / totalTicks / (double)pres), 2);
         }
 
         public static uint GetRemainTicks(uint freq, ulong res, uint pres, double sec)
         {
-            return (uint)(freq * sec - GetOverflow(freq, res, pres, sec) * res * pres) / pres;
+            return (uint)(freq * Math.Round(sec, 2) - GetOverflow(freq, res, pres, sec) * res * pres) / pres;
         }
 
         public static double GetFreq(double freq)
         {
-            return 1 / freq;
+            return Math.Round(1 / freq, 2);
         }
     }
 }
