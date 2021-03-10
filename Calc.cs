@@ -25,7 +25,7 @@ namespace TimerCalculator
 
         public static uint GetOverflow(uint freq, ulong res, uint pres, double sec)
         {
-            return (uint)(freq / res / pres * Math.Round(sec, 2));
+            return (uint)(freq / res / (double)pres * Math.Round(sec, 2));
         }
 
         public static double GetRealTime(uint clockFreq, ulong totalTicks, uint pres)
